@@ -1,0 +1,33 @@
+{
+	"name": "ntrumls",
+	"version": "0.0.1",
+	"description": "JavaScript wrapper for a WebAssembly build of NTRUMLS",
+	"main": "dist/ntrumls.js",
+	"types": "./ntrumls.d.ts",
+	"repository": {
+		"type": "git",
+		"url": "git@github.com:veritas-shine/ntru.js.git"
+	},
+	"scripts": {
+		"test": "mocha --require babel-core/register --require babel-polyfill --reporter spec test/*-spec.js"
+	},
+	"keywords": [
+		"cryptography",
+		"post-quantum",
+		"ntrumls",
+		"asm.js",
+		"webassembly"
+	],
+	"author": "tearsofphoenix@icloud.com",
+	"license": "BSD-2-Clause",
+	"bugs": {
+		"url": "https://github.com/cyph/ntru.js/issues"
+	},
+	"devDependencies": {
+		"babel-core": "^6.26.0",
+		"babel-polyfill": "^6.26.0",
+		"babel-preset-env": "^1.6.1",
+		"babel-preset-stage-0": "^6.24.1",
+		"mocha": "^5.0.0"
+	}
+}
