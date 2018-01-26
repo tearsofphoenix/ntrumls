@@ -2,7 +2,7 @@ all:
 	rm -rf dist 2> /dev/null
 	mkdir dist
 
-	git clone --depth 1 https://github.com/NTRUOpenSourceProject/NTRUMLS.git
+	#git clone --depth 1 https://github.com/NTRUOpenSourceProject/NTRUMLS.git
 
 	bash -c ' \
 		args="$$(echo " \
@@ -60,8 +60,8 @@ all:
 	" >> dist/ntrumls.tmp.js
 	cat post.js >> dist/ntrumls.tmp.js
 	cat dist/ntrumls.tmp.js >> dist/ntrumls.js
-	sed -i '' 's|use asm||g' dist/ntrumls.js
-	sed -i '' 's|require(|eval("require")(|g' dist/ntrumls.js
+	sed -i 's|use asm||g' dist/ntrumls.js
+	sed -i 's|require(|eval("require")(|g' dist/ntrumls.js
 	rm -rf dist/ntrumls.tmp.js
 	rm -rf dist/ntrumls.asm.js
 	rm -rf dist/ntrumls.wasm.js

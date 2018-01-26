@@ -25,7 +25,7 @@ size_t ntrumls_get_sig_len() {
 int ntrumls_init(PQ_PARAM_SET_ID id) {
 
     rng_init();
-
+    return 1;
     if(!(P = pq_get_param_set_by_id(id))) {
         return -1;
     }

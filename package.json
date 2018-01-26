@@ -9,7 +9,8 @@
 		"url": "git@github.com:tearsofphoenix/ntrumls.git"
 	},
 	"scripts": {
-		"test": "mocha --require babel-core/register --require babel-polyfill --reporter spec test/*-spec.js"
+		"test": "mocha --require babel-core/register --require babel-polyfill --reporter spec test/*-spec.js",
+		"ex": "node test/test.js"
 	},
 	"keywords": [
 		"cryptography",

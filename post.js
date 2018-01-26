@@ -34,9 +34,13 @@ function NTRUMLS() {
   var that = this;
   const init = function(id) {
     Module.ready.then(function () {
+      console.log(37, id);
       var ret = Module._ntrumls_init(id);
+      console.log(38, ret);
       that.publicKeyBytes = Module._ntrumls_get_publickey_len();
       that.privateKeyBytes = Module._ntrumls_get_privatekey_len();
+      console.log(ret)
+      return ret
     });
   }
 
