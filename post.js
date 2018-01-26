@@ -37,7 +37,6 @@ function NTRUMLS() {
       var ret = Module._ntrumls_init(id);
       that.publicKeyBytes = Module._ntrumls_get_publickey_len();
       that.privateKeyBytes = Module._ntrumls_get_privatekey_len();
-      console.log(that, ret);
     });
   }
 
@@ -115,7 +114,6 @@ function NTRUMLS() {
             message,
             message.byteLength);
       } catch (e) {
-        console.log(e)
       } finally {
         return false
       }

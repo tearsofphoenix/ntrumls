@@ -1,12 +1,8 @@
-#include <stdlib.h>
 #include <stdint.h>
-#include <string.h>
-
+#include <stddef.h>
 #include "fastrandombytes.h"
 #include "params.h"
-#include "pqerror.h"
 #include "pqntrusign.h"
-#include "pack.h"
 #include <memory.h>
 
 static size_t privkey_blob_len;
@@ -31,7 +27,7 @@ int ntrumls_init(PQ_PARAM_SET_ID id) {
     rng_init();
 
     if(!(P = pq_get_param_set_by_id(id))) {
-        exit(EXIT_FAILURE);
+        return -1;
     }
 
     return pq_gen_key(P, &privkey_blob_len, NULL, &pubkey_blob_len, NULL);
