@@ -1,70 +1,31 @@
+SOURCES = NTRUMLS/src/crypto_hash_sha512.c \
+					NTRUMLS/src/crypto_stream.c \
+					NTRUMLS/src/randombytes.c \
+					NTRUMLS/src/fastrandombytes.c \
+					NTRUMLS/src/shred.c \
+					NTRUMLS/src/convert.c \
+					NTRUMLS/src/pack.c \
+					NTRUMLS/src/pol.c \
+					NTRUMLS/src/params.c \
+					NTRUMLS/src/pqntrusign.c
 all:
 	rm -rf dist 2> /dev/null
 	mkdir dist
 
 	#git clone --depth 1 https://github.com/NTRUOpenSourceProject/NTRUMLS.git
-
-	bash -c ' \
-		args="$$(echo " \
-			-s SINGLE_FILE=1 \
-			-s TOTAL_MEMORY=16777216 -s TOTAL_STACK=8388608 \
-			-s ASSERTIONS=0 \
-			-s AGGRESSIVE_VARIABLE_ELIMINATION=1 \
-			-s ALIASING_FUNCTION_POINTERS=1 \
-			-s DISABLE_EXCEPTION_CATCHING=1 \
-			-s NO_FILESYSTEM=1 \
-			-INTRUMLS/src \
-			$$(ls NTRUMLS/src/*.c | grep -v bench.c | grep -v vs.c) \
-			ntrumls.c \
-			-s EXTRA_EXPORTED_RUNTIME_METHODS=\"[ \
-				'"'"'writeArrayToMemory'"'"' \
-			]\" \
-			-s EXPORTED_FUNCTIONS=\"[ \
-				'"'"'_free'"'"', \
-				'"'"'_malloc'"'"', \
-				'"'"'_ntrumls_init'"'"', \
-				'"'"'_ntrumls_gen_key'"'"', \
-				'"'"'_ntrumls_pre_sign'"'"', \
-				'"'"'_ntrumls_sign'"'"', \
-				'"'"'_ntrumls_verify'"'"', \
-				'"'"'_ntrumls_dispose'"'"', \
-				'"'"'_ntrumls_get_privatekey_len'"'"', \
-				'"'"'_ntrumls_get_publickey_len'"'"', \
-				'"'"'_ntrumls_get_sig_len'"'"' \
-			]\" \
-		" | perl -pe "s/\s+/ /g" | perl -pe "s/\[ /\[/g" | perl -pe "s/ \]/\]/g")"; \
-		\
-		bash -c "emcc -Oz -s RUNNING_JS_OPTS=1 $$args -o dist/ntrumls.asm.js"; \
-		bash -c "emcc -O3 -s WASM=1 $$args -o dist/ntrumls.wasm.js"; \
-	'
-
-	cp pre.js dist/ntrumls.tmp.js
-	echo " \
-		var Module = {}; \
-		var _Module = Module; \
-		Module.ready = new Promise(function (resolve, reject) { \
-			var Module = _Module; \
-			Module.onAbort = reject; \
-			Module.onRuntimeInitialized = resolve; \
-	" >> dist/ntrumls.tmp.js
-	cat dist/ntrumls.wasm.js >> dist/ntrumls.tmp.js
-	echo " \
-		}).catch(function () { \
-			var Module = _Module; \
-			Module.onAbort = undefined; \
-			Module.onRuntimeInitialized = undefined; \
-	" >> dist/ntrumls.tmp.js
-	cat dist/ntrumls.asm.js >> dist/ntrumls.tmp.js
-	echo " \
-		}); \
-	" >> dist/ntrumls.tmp.js
-	cat post.js >> dist/ntrumls.tmp.js
-	cat dist/ntrumls.tmp.js >> dist/ntrumls.js
-	sed -i 's|use asm||g' dist/ntrumls.js
-	sed -i 's|require(|eval("require")(|g' dist/ntrumls.js
-	rm -rf dist/ntrumls.tmp.js
-	rm -rf dist/ntrumls.asm.js
-	rm -rf dist/ntrumls.wasm.js
+	emcc -O3 --memory-init-file 0 \
+             -s SINGLE_FILE=1 \
+             -s TOTAL_MEMORY=16777216 -s TOTAL_STACK=8388608 \
+             -s ASSERTIONS=0 \
+             -s NO_FILESYSTEM=1 \
+             -s MODULARIZE=1 \
+             -s EXPORT_NAME="'NTRUMLSModule'" \
+             -INTRUMLS/src \
+             $(SOURCES) \
+             ntrumls.c \
+             -s EXTRA_EXPORTED_RUNTIME_METHODS="['writeArrayToMemory']" \
+             -s EXPORTED_FUNCTIONS="['_free', '_malloc', '_ntrumls_init', '_ntrumls_gen_key', '_ntrumls_pre_sign', '_ntrumls_sign', '_ntrumls_verify', '_ntrumls_dispose','_ntrumls_get_privatekey_len','_ntrumls_get_publickey_len','_ntrumls_get_sig_len']" \
+             -o dist/ntrumls.js
 
 clean:
 	rm -rf dist NTRUMLS

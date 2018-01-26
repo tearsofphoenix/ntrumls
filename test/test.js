@@ -1,4 +1,4 @@
-var NTRUMLS = require('../');
+var NTRUMLS = require('../main');
 
 console.log(NTRUMLS);
 
@@ -8,16 +8,13 @@ function toHexString(byteArray) {
   }).join('')
 }
 
-new Promise(function(resolve) {
-  var message = new Uint8Array([11, 12, 13, 14, 15, 16, 17, 18, 11, 12, 13, 14, 15, 16, 17, 18,
-    11, 12, 13, 14, 15, 16, 17, 18, 11, 12, 13, 14, 15, 16, 17, 18, 11, 12, 13, 14, 15, 16, 17, 18,
-    11, 12, 13, 14, 15, 16, 17, 18, 11, 12, 13, 14, 15, 16, 17, 18, 11, 12, 13, 14, 15, 16, 17, 18])
-  var cipher = new NTRUMLS()
 
-  cipher.keyPair(NTRUMLS.XXX_20151024_907).then(function (keyPair) {
-    console.log(17, keyPair.privateKey, keyPair.publicKey)
-    cipher.sign(message, keyPair.privateKey, keyPair.publicKey).then(function (sign) {
-      cipher.verify(sign, keyPair.publicKey, message).then(console.log)
-    });
-  })
-}).then(console.log);
+var message = new Uint8Array([11, 12, 13, 14, 15, 16, 17, 18, 11, 12, 13, 14, 15, 16, 17, 18,
+  11, 12, 13, 14, 15, 16, 17, 18, 11, 12, 13, 14, 15, 16, 17, 18, 11, 12, 13, 14, 15, 16, 17, 18,
+  11, 12, 13, 14, 15, 16, 17, 18, 11, 12, 13, 14, 15, 16, 17, 18, 11, 12, 13, 14, 15, 16, 17, 18])
+var cipher = new NTRUMLS()
+
+var keyPair = cipher.keyPair(NTRUMLS.XXX_20151024_907);
+console.log(17, keyPair.privateKey, keyPair.publicKey)
+var sign = cipher.sign(message, keyPair.privateKey, keyPair.publicKey);
+cipher.verify(sign, keyPair.publicKey, message).then(console.log)

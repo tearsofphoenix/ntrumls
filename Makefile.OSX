@@ -58,7 +58,7 @@ all:
 	echo " \
 		}); \
 	" >> dist/ntrumls.tmp.js
-	cat post.js >> dist/ntrumls.tmp.js
+	cat main.js >> dist/ntrumls.tmp.js
 	cat dist/ntrumls.tmp.js >> dist/ntrumls.js
 	sed -i '' 's|use asm||g' dist/ntrumls.js
 	sed -i '' 's|require(|eval("require")(|g' dist/ntrumls.js
