@@ -1,0 +1,3 @@
+[submodule "NTRUMLS"]
+	path = NTRUMLS
+	url = https://github.com/NTRUOpenSourceProject/NTRUMLS.git

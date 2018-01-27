@@ -3,4 +3,6 @@ node_modules
 dist/ntrumls.asm.js
 dist/ntrumls.tmp.js
 libsodium/
-NTRUMLS/
+build
+lib
+cmake-build-debug

@@ -1,16 +1,15 @@
 {
 	"name": "ntrumls",
 	"version": "0.0.1",
-	"description": "JavaScript wrapper for a WebAssembly build of NTRUMLS",
-	"main": "dist/ntrumls.js",
-	"types": "./ntrumls.d.ts",
+	"description": "JavaScript wrapper for NTRUMLS",
+	"main": "./main.js",
 	"repository": {
 		"type": "git",
 		"url": "git@github.com:tearsofphoenix/ntrumls.git"
 	},
 	"scripts": {
-		"test": "mocha --require babel-core/register --require babel-polyfill --reporter spec test/*-spec.js",
-		"ex": "node test/test.js"
+		"install": "(node install.js) || (exit 0)",
+		"test": "mocha --reporter spec test/*-spec.js"
 	},
 	"keywords": [
 		"cryptography",

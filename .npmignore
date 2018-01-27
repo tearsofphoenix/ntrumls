@@ -1,3 +1,2 @@
-NTRUMLS
-dist/ntrumls.asm.js
-dist/ntrumls.tmp.js
+ntru-crypto
+build
