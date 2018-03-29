@@ -36,8 +36,6 @@ void GenKey(const FunctionCallbackInfo<Value>& args) {
   obj->Set(v8::String::NewFromUtf8(isolate,"private"), node::Encode(isolate,(const char*)privkey,privlen,node::encoding::BUFFER));
   obj->Set(v8::String::NewFromUtf8(isolate,"public"), node::Encode(isolate,(const char*)pubkey,publen,node::encoding::BUFFER));
   args.GetReturnValue().Set(obj);
-  free(pubkey);
-  free(privkey);
 }
 void signData(const FunctionCallbackInfo<Value>& args) {
   Isolate* isolate = args.GetIsolate();
